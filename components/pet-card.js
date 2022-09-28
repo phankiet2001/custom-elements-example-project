@@ -1,17 +1,17 @@
-const template = document.createElement("template");
-
-template.innerHTML = `
-    <p>pet card: <span></span></p>
-    <div>
-        name: <slot name="name"></slot>
-    </div>
-`;
+import { createTemplate } from "./../core/createTemplate.js";
 
 class PetCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" }); // trigger shadow DOM to using DOM syntax with self
-    this.shadowRoot.appendChild(template.content.cloneNode(true)); // this line could be run by the shadow DOM was triggered
+    this.shadowRoot.appendChild(
+      createTemplate(`
+        <p>pet card: <span></span></p>
+        <div>
+            name: <slot name="name"></slot>
+        </div>
+    `)
+    ); // this line could be run by the shadow DOM was triggered
   }
 
   static get observedAttributes() {
@@ -19,7 +19,9 @@ class PetCard extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    this.shadowRoot.querySelector("p span").innerText = ` ${this.getAttribute("name")}`;
+    this.shadowRoot.querySelector("p span")?.innerText = ` ${this.getAttribute(
+      "name"
+    )}`;
   }
 }
 
