@@ -6,20 +6,22 @@ class PetCard extends HTMLElement {
     this.attachShadow({ mode: "open" }); // trigger shadow DOM to using DOM syntax with self
     this.shadowRoot.appendChild(
       createTemplate(`
-        <p>pet card: <span></span></p>
         <div>
-            name: <slot name="name"></slot>
+          <p>pet card: <span></span></p>
+          <div>
+              name: <slot name="name"></slot>
+          </div>
         </div>
     `)
     ); // this line could be run by the shadow DOM was triggered
   }
 
   static get observedAttributes() {
-    return ["name", "hehe"];
+    return ["name"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    this.shadowRoot.querySelector("p span")?.innerText = ` ${this.getAttribute(
+    this.shadowRoot.querySelector("p span").innerText = ` ${this.getAttribute(
       "name"
     )}`;
   }
